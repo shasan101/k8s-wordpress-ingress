@@ -1,7 +1,8 @@
 secretGenerator:
 - name: mysql-pass
+  namespace: nginx-ingress
   literals:
   - password=YOUR_PASSWORD
 resources:
-  - mysql-deployment.yaml
-  - wordpress-deployment.yaml
+  - mysql-deployment.yml
+  - wordpress-deployment.yml

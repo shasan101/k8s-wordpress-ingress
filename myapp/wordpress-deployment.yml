@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wordpress
+  namespace: nginx-ingress
   labels:
     app: wordpress
 spec:
@@ -16,6 +17,7 @@ apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: wordpress
+  namespace: nginx-ingress
   labels:
     app: wordpress
 spec:
@@ -27,6 +29,7 @@ spec:
     type: Recreate
   template:
     metadata:
+      namespace: nginx-ingress
       labels:
         app: wordpress
         tier: frontend
@@ -45,11 +48,3 @@ spec:
         ports:
         - containerPort: 80
           name: wordpress
-#        volumeMounts:
-#        - name: wordpress-persistent-storage
-#          mountPath: /var/www/html
-#Not mounting vol. otherwise create a separate volume and create a pvc for it and mount onto it
-#      volumes:
-#      - name: wordpress-persistent-storage
-#        persistentVolumeClaim:
-#          claimName: nfs-pv-claim
