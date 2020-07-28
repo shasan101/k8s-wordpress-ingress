@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+#  namespace: nginx-ingress
   name: nfs-pv
   labels:
     name: nfs-pv
@@ -11,7 +12,12 @@ spec:
   volumeMode: Filesystem
   storageClassName: standard
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
+  claimRef:
+    name: nfs-pv-claim
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    namespace: nginx-ingress
   persistentVolumeReclaimPolicy: Recycle
   storageClassName: slow
   mountOptions:

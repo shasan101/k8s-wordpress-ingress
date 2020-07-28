@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-mysql
+  namespace: nginx-ingress
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: wordpress
+    tier: mysql
+  clusterIP: None
+
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: wordpress-mysql
+  namespace: nginx-ingress
+  labels:
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      app: wordpress
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wordpress
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-pass
+                key: password
+        ports:
+        - containerPort: 3306
+          name: mysql
+      initContainers:
+        - name: logging-init
+          image: busybox:1.28
+          command: ['sh', '-c', "echo ${MY_POD_IP} >> ${LOG_DIR}/host_ip_logs.txt"]
+          volumeMounts:
+            - name: workdir
+              mountPath: /var/lib/mysql
+          env:
+            - name: LOG_DIR
+              value: "/var/lib/mysql"
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+      volumes:
+      - name: workdir
+        persistentVolumeClaim:
+          claimName: nfs-pv-claim
+
