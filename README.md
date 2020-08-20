@@ -1,4 +1,4 @@
-# Xgrid K8s deployment of Wordpress Site with MySql
+# K8s deployment of Wordpress Site with MySql
 
 The following document will take you granularly to host your wordpress site over a k8s cluster with a persistent storage setup for the Database.
 
@@ -52,7 +52,7 @@ After we have completely setup Nginx Ingress, we set the path based routing for 
 <code>cd ../.. </code><br>
 <code>kubectl apply -f ingress-nginx.yml</code>
 
-Now we have an Ingress Listening on port 80 for any request for url, as specified in the &quot;ingress-nginx.yml&quot; file: &quot;wordpress.xgrid.co&quot;.
+Now we have an Ingress Listening on port 80 for any request for url, as specified in the &quot;ingress-nginx.yml&quot; file: &quot;wordpress.local.co&quot;.
 
 Even though our Ingress has been set, we will only be getting 404 since there is no backend Service configured to serve the web requests.
 
@@ -82,13 +82,11 @@ Keep checking the output of the above command until the Status of the Wordpress 
 
 In the end you will be able to browse your Wordpress app by either the browser or by just simply running:
 
-<code>curl http:///wordpress.xgrid.co/wp-admin/install.php</code><br>
+<code>curl http:///wordpress.local.co/wp-admin/install.php</code><br>
 
 Note: your system will only be able to route to this domain name if, either, it&#39;s hosted over a global DNS provider or you have an entry in the /etc/hosts file.
 
 Simply run: 
-<code>sudo echo &quot;127.0.0.1 wordpress.xgrid.co&quot; \&gt;\&gt; /etc/hosts</code><br>
+<code>sudo echo &quot;127.0.0.1 local.xgrid.co&quot; \&gt;\&gt; /etc/hosts</code><br>
 
 Voila!
-
-P.S: if you want to go through this readme with screenshots attached, please go to this link: https://docs.google.com/document/d/1UFdgSH05h0aaVlxFqH6Lk3y6Qw105nKJpokd9ZQ0Kn4/edit?usp=sharing
