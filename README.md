@@ -87,6 +87,6 @@ In the end you will be able to browse your Wordpress app by either the browser o
 Note: your system will only be able to route to this domain name if, either, it&#39;s hosted over a global DNS provider or you have an entry in the /etc/hosts file.
 
 Simply run: 
-<code>sudo echo &quot;127.0.0.1 local.xgrid.co&quot; \&gt;\&gt; /etc/hosts</code><br>
+<code>sudo echo &quot;127.0.0.1 wordpress.local.co&quot; \&gt;\&gt; /etc/hosts</code><br>
 
 Voila!
